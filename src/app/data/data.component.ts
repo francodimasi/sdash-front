@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from './data.service'
+import { DataService } from './data.service';
+import { ChartConfig } from '../chart/chart.config';
 
 @Component({
   selector: 'app-data',
@@ -9,6 +10,8 @@ import { DataService } from './data.service'
 })
 export class DataComponent implements OnInit {
 
+  private ChartConfig: Array<ChartConfig>;
+
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
@@ -16,7 +19,20 @@ export class DataComponent implements OnInit {
 
   getTweets() {
     this.dataService.getTweets()
-                    .subscribe(tweets => console.log(tweets.json()));
+      .subscribe((tweets: any) => {
+
+        let followersArea: ChartConfig = {
+          settings: {
+            fill: 'rgba(1, 67, 163, 1)',
+            interpolation: 'monotone'
+          }, dataset: tweets.docs.map(data => {
+            return { x: new Date(data.created_at), y: data.followers_count };
+          })
+        };
+
+        this.ChartConfig = new Array<ChartConfig>();
+        this.ChartConfig.push(followersArea);
+      });
   }
 
 }

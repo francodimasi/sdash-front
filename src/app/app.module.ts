@@ -5,11 +5,13 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { DataComponent } from './data/data.component';
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DataComponent
+    DataComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
