@@ -1,6 +1,6 @@
 {
   "/tweets": {
-    "target": "https://sdash.mybluemix.net",
+    "target": "https://santanderrio.mybluemix.net",
     "secure": true
   }
 }

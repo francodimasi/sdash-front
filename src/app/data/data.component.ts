@@ -15,6 +15,7 @@ export class DataComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
+    this.getTweets();
   }
 
   getTweets() {

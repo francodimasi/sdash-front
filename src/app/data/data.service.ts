@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class DataService {
 
-  private url: string = 'https://sdash.mybluemix.net';
+  private url: string = 'https://santanderrio.mybluemix.net';
 
   constructor(private http: Http) { }
 

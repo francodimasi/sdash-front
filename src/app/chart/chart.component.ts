@@ -21,8 +21,11 @@ export class ChartComponent implements OnChanges, AfterViewInit {
   private height;
   private xScale;
   private yScale;
+  private zScale;
   private xAxis;
   private yAxis;
+  private zAxis;
+  private stack;
   private htmlElement: HTMLElement;
 
   constructor() { }
@@ -38,16 +41,19 @@ export class ChartComponent implements OnChanges, AfterViewInit {
     this.setup();
     this.buildSVG();
     this.populate();
-    this.drawXAxis();
-    this.drawYAxis();
+    // this.drawXAxis();
+    // this.drawYAxis();
   }
 
   private setup(): void {
     this.margin = { top: 20, right: 20, bottom: 40, left: 40 };
     this.width = this.htmlElement.clientWidth - this.margin.left - this.margin.right;
     this.height = this.width * 0.5 - this.margin.top - this.margin.bottom;
-    this.xScale = D3.time.scale().range([0, this.width]);
-    this.yScale = D3.scale.linear().range([this.height, 0]);
+    this.xScale = D3.scaleLinear().range([0, this.width]);
+    // this.yScale = D3.scale.linear().range([this.height, 0]);
+    // this.yScale = D3.scaleLinear().rangeRound([this.height, 0]);
+    // this.zScale = D3.scaleOrdinal().range(['#98abc5', '#8a89a6']);
+    // this.stack = D3.stack().offset(D3.stackOffsetExpand);
   }
 
   private buildSVG(): void {
@@ -59,26 +65,26 @@ export class ChartComponent implements OnChanges, AfterViewInit {
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
   }
 
-  private drawXAxis(): void {
-    this.xAxis = D3.svg.axis().scale(this.xScale)
-      .tickFormat(t => Moment(t).format('HH:mm').toUpperCase())
-      .tickPadding(15);
-    this.svg.append('g')
-      .attr('class', 'x axis')
-      .attr('transform', 'translate(0,' + this.height + ')')
-      .call(this.xAxis);
-  }
-
-  private drawYAxis(): void {
-    this.yAxis = D3.svg.axis().scale(this.yScale)
-      .orient('left')
-      .tickPadding(10);
-    this.svg.append('g')
-      .attr('class', 'y axis')
-      .call(this.yAxis)
-      .append('text')
-      .attr('transform', 'rotate(-90)');
-  }
+  // private drawXAxis(): void {
+  //   this.xAxis = D3.svg.axis().scale(this.xScale)
+  //     .tickFormat(t => Moment(t).format('HH:mm').toUpperCase())
+  //     .tickPadding(15);
+  //   this.svg.append('g')
+  //     .attr('class', 'x axis')
+  //     .attr('transform', 'translate(0,' + this.height + ')')
+  //     .call(this.xAxis);
+  // }
+  //
+  // private drawYAxis(): void {
+  //   this.yAxis = D3.svg.axis().scale(this.yScale)
+  //     .orient('left')
+  //     .tickPadding(10);
+  //   this.svg.append('g')
+  //     .attr('class', 'y axis')
+  //     .call(this.yAxis)
+  //     .append('text')
+  //     .attr('transform', 'rotate(-90)');
+  // }
 
   private getMaxY(): number {
     let maxValuesOfAreas = [];
@@ -88,17 +94,25 @@ export class ChartComponent implements OnChanges, AfterViewInit {
 
   private populate(): void {
     this.config.forEach((area: any) => {
-      this.xScale.domain(D3.extent(area.dataset, (d: any) => d.x));
-      this.yScale.domain([0, this.getMaxY()]);
-      this.svg.append('path')
-        .datum(area.dataset)
-        .attr('class', 'area')
-        .style('fill', area.settings.fill)
-        .attr('d', D3.svg.area()
-          .x((d: any) => this.xScale(d.x))
-          .y0(this.height)
-          .y1((d: any) => this.yScale(d.y))
-          .interpolate(area.settings.interpolation));
+      this.xScale.domain([0, this.getMaxY()]);
+      // this.yScale.domain([0, this.getMaxY()]);
+      // this.svg.append('path')
+      //   .datum(area.dataset)
+      //   .attr('class', 'area')
+      //   .style('fill', area.settings.fill)
+      //   .attr('d', D3.svg.area()
+      //     .x((d: any) => this.xScale(d.x))
+      //     .y0(this.height)
+      //     .y1((d: any) => this.yScale(d.y))
+      //     .interpolate(area.settings.interpolation));
+
+      this.svg.selectAll('circle')
+        .data(area.dataset)
+        .enter()
+        .append('circle')
+          .attr('r', 3)
+          .attr('cx', ((d: any) => this.xScale(d.y)))
+
     });
   }
 }
