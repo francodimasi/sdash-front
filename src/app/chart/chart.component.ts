@@ -47,7 +47,6 @@ export class ChartComponent implements OnChanges, AfterViewInit {
 
   private setup(): void {
     this.margin = { top: 20, right: 20, bottom: 40, left: 40 };
-    console.log(this.htmlElement.clientWidth);
     this.width = this.htmlElement.clientWidth - this.margin.left - this.margin.right;
     this.height = this.width * 0.5 - this.margin.top - this.margin.bottom;
     this.xScale = D3.scaleLinear().range([0, this.width]);
