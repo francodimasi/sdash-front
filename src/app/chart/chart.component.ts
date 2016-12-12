@@ -1,5 +1,5 @@
-import { Component, OnChanges, AfterViewInit, Input, ElementRef, ViewChild } from '@angular/core';
-import { ChartConfig } from './chart.config';
+import { Component, OnChanges, AfterViewInit, Input, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { BubbleChartConfig } from './chart.config';
 import * as D3 from 'd3';
 import * as Moment from 'moment';
 
@@ -7,11 +7,12 @@ import * as Moment from 'moment';
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.scss']
+  styleUrls: ['./chart.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ChartComponent implements OnChanges, AfterViewInit {
 
-  @Input() config: Array<ChartConfig>;
+  @Input() config: Array<BubbleChartConfig>;
   @ViewChild('workarea') element: ElementRef;
 
   private host;
@@ -21,12 +22,10 @@ export class ChartComponent implements OnChanges, AfterViewInit {
   private height;
   private xScale;
   private yScale;
-  private zScale;
-  private xAxis;
-  private yAxis;
-  private zAxis;
-  private stack;
   private htmlElement: HTMLElement;
+  private pack;
+  private root;
+  private node;
 
   constructor() { }
 
@@ -41,78 +40,54 @@ export class ChartComponent implements OnChanges, AfterViewInit {
     this.setup();
     this.buildSVG();
     this.populate();
-    // this.drawXAxis();
-    // this.drawYAxis();
   }
 
   private setup(): void {
-    this.margin = { top: 20, right: 20, bottom: 40, left: 40 };
+    this.margin = { top: 5, right: 5, bottom: 5, left: 5 };
     this.width = this.htmlElement.clientWidth - this.margin.left - this.margin.right;
-    this.height = this.width * 0.5 - this.margin.top - this.margin.bottom;
-    this.xScale = D3.scaleLinear().range([0, this.width]);
-    // this.yScale = D3.scale.linear().range([this.height, 0]);
-    // this.yScale = D3.scaleLinear().rangeRound([this.height, 0]);
-    // this.zScale = D3.scaleOrdinal().range(['#98abc5', '#8a89a6']);
-    // this.stack = D3.stack().offset(D3.stackOffsetExpand);
+    this.height = this.width * 0.9 - this.margin.top - this.margin.bottom;
+
+    this.color = D3.scaleOrdinal(D3.schemeCategory20c);
+    this.pack = D3.pack().size([this.width, this.width]).padding(1.5);
+
   }
 
   private buildSVG(): void {
     this.host.html('');
     this.svg = this.host.append('svg')
       .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .append('g')
-      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-  }
+      .attr('height', this.height + this.margin.top + this.margin.bottom);
 
-  // private drawXAxis(): void {
-  //   this.xAxis = D3.svg.axis().scale(this.xScale)
-  //     .tickFormat(t => Moment(t).format('HH:mm').toUpperCase())
-  //     .tickPadding(15);
-  //   this.svg.append('g')
-  //     .attr('class', 'x axis')
-  //     .attr('transform', 'translate(0,' + this.height + ')')
-  //     .call(this.xAxis);
-  // }
-  //
-  // private drawYAxis(): void {
-  //   this.yAxis = D3.svg.axis().scale(this.yScale)
-  //     .orient('left')
-  //     .tickPadding(10);
-  //   this.svg.append('g')
-  //     .attr('class', 'y axis')
-  //     .call(this.yAxis)
-  //     .append('text')
-  //     .attr('transform', 'rotate(-90)');
-  // }
-
-  private getMaxY(): number {
-    let maxValuesOfAreas = [];
-    this.config.forEach(data => maxValuesOfAreas.push(Math.max.apply(Math, data.dataset.map(d => d.y))));
-    return Math.max(...maxValuesOfAreas);
   }
 
   private populate(): void {
-    this.config.forEach((area: any) => {
-      this.xScale.domain([0, this.getMaxY()]);
-      // this.yScale.domain([0, this.getMaxY()]);
-      // this.svg.append('path')
-      //   .datum(area.dataset)
-      //   .attr('class', 'area')
-      //   .style('fill', area.settings.fill)
-      //   .attr('d', D3.svg.area()
-      //     .x((d: any) => this.xScale(d.x))
-      //     .y0(this.height)
-      //     .y1((d: any) => this.yScale(d.y))
-      //     .interpolate(area.settings.interpolation));
 
-      this.svg.selectAll('circle')
-        .data(area.dataset)
-        .enter()
-        .append('circle')
-          .attr('r', 3)
-          .attr('cx', ((d: any) => this.xScale(d.y)))
+    this.root = D3.hierarchy({ children: this.config[0].dataset })
+      .sum(function(d) { return d.followers_count })
+      .each(function(d) {
+        d.id = d.data.screen_name;
+        d.sentiment = d.data.sentiment;
+      });
 
-    });
+    this.node = this.svg.selectAll(".node")
+      .data(this.pack(this.root).leaves())
+      .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+    this.node.append("circle")
+      .attr("id", function(d) { return d.id; })
+      .attr("class", function(d) { return d.sentiment; })
+      .attr("r", function(d) { return d.r; });
+
+    this.node.append("clipPath")
+      .attr("id", function(d) { return "clip-" + d.id; })
+      .append("use")
+      .attr("xlink:href", function(d) { return "#" + d.id; });
+
+    this.node.append("text")
+      .attr("clip-path", function(d) { return "url(#clip-" + d.id + ")"; })
+      .attr("dy", "0.3em")
+      .text(function(d) { return d.id; });
   }
 }

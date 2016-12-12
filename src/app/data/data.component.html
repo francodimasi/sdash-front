@@ -7,9 +7,7 @@
           Avatar
         </div>
         <div class="chart-stage">
-          <div id="chart-01">
-            <app-chart [config]="ChartConfig"></app-chart>
-          </div>
+          <div id="chart-01"></div>
         </div>
         <div class="chart-notes">
           This is a sample text region to describe this chart.
@@ -50,13 +48,15 @@
       </div>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-8">
       <div class="chart-wrapper">
         <div class="chart-title">
           Sentimiento
         </div>
         <div class="chart-stage">
-          <div id="chart-05"></div>
+          <div id="chart-05">
+            <app-chart [config]="BubbleChartConfig"></app-chart>
+          </div>
         </div>
         <div class="chart-notes">
           Notes go down here
