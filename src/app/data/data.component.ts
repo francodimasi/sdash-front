@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from './data.service';
-import { BubbleChartConfig } from '../chart/chart.config';
+import { BubbleChartConfig } from '../bubble/bubble.config';
+import { BarChartConfig } from '../bar/bar.config';
 
 @Component({
   selector: 'app-data',
@@ -12,6 +13,7 @@ export class DataComponent implements OnInit {
 
   // private ChartConfig: Array<ChartConfig>;
   private BubbleChartConfig: Array<BubbleChartConfig>;
+  private BarChartConfig: Array<BarChartConfig>;
 
   constructor(private dataService: DataService) { }
 
@@ -40,6 +42,18 @@ export class DataComponent implements OnInit {
 
         this.BubbleChartConfig = new Array<BubbleChartConfig>();
         this.BubbleChartConfig.push(bubbleChartArea);
+
+
+
+
+        let barChartArea: BarChartConfig = {
+          dataset: tweets.docs.map(data => {
+            return { intents: data.intents[0].intent };
+          })
+        };
+
+        this.BarChartConfig = new Array<BarChartConfig>();
+        this.BarChartConfig.push(barChartArea);
 
         // this.ChartConfig = new Array<ChartConfig>();
         // this.ChartConfig.push(bubbleChartArea);

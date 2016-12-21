@@ -5,13 +5,15 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { DataComponent } from './data/data.component';
-import { ChartComponent } from './chart/chart.component';
+import { BubbleComponent } from './bubble/bubble.component';
+import { BarComponent } from './bar/bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DataComponent,
-    ChartComponent
+    BubbleComponent,
+    BarComponent
   ],
   imports: [
     BrowserModule,

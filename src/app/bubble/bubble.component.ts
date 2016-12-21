@@ -1,16 +1,16 @@
 import { Component, OnChanges, AfterViewInit, Input, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { BubbleChartConfig } from './chart.config';
+import { BubbleChartConfig } from './bubble.config';
 import * as D3 from 'd3';
 import * as Moment from 'moment';
 
 
 @Component({
-  selector: 'app-chart',
-  templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.scss'],
+  selector: 'bubble-chart',
+  templateUrl: './bubble.component.html',
+  styleUrls: ['./bubble.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ChartComponent implements OnChanges, AfterViewInit {
+export class BubbleComponent implements OnChanges, AfterViewInit {
 
   @Input() config: Array<BubbleChartConfig>;
   @ViewChild('workarea') element: ElementRef;
@@ -47,7 +47,7 @@ export class ChartComponent implements OnChanges, AfterViewInit {
     this.width = this.htmlElement.clientWidth - this.margin.left - this.margin.right;
     this.height = this.width * 0.9 - this.margin.top - this.margin.bottom;
 
-    this.color = D3.scaleOrdinal(D3.schemeCategory20c);
+    // this.color = D3.scaleOrdinal(D3.schemeCategory20c);
     this.pack = D3.pack().size([this.width, this.width]).padding(1.5);
 
   }

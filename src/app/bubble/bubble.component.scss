@@ -1,0 +1,30 @@
+.graph {
+  width: 100%;
+  display: block;
+}
+
+text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
+.positive {
+  fill: rgb(156, 175, 132);
+  fill-opacity: .25;
+  stroke: rgb(126, 150, 93);
+  stroke-width: 1px;
+}
+
+.negative {
+  fill: rgb(238, 149, 134);
+  fill-opacity: .25;
+  stroke: rgb(230, 119, 97);
+  stroke-width: 1px;
+}
+
+.neutral {
+  fill: rgb(170, 170, 170);
+  fill-opacity: .25;
+  stroke: rgb(153, 153, 153);
+  stroke-width: 1px;
+}

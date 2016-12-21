@@ -21,7 +21,9 @@
           Tendencia en tiempo real
         </div>
         <div class="chart-stage">
-          <div id="chart-02"></div>
+          <div id="chart-02">
+            <bar-chart [config]="BarChartConfig"></bar-chart>
+          </div>
         </div>
         <div class="chart-notes">
           Notes go down here
@@ -55,7 +57,7 @@
         </div>
         <div class="chart-stage">
           <div id="chart-05">
-            <app-chart [config]="BubbleChartConfig"></app-chart>
+            <bubble-chart [config]="BubbleChartConfig"></bubble-chart>
           </div>
         </div>
         <div class="chart-notes">
