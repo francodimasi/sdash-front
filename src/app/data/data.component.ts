@@ -13,7 +13,7 @@ export class DataComponent implements OnInit {
 
   // private ChartConfig: Array<ChartConfig>;
   private BubbleChartConfig: Array<BubbleChartConfig>;
-  private BarChartConfig: Array<BarChartConfig>;
+  private BarChartConfig: BarChartConfig;
 
   constructor(private dataService: DataService) { }
 
@@ -43,17 +43,44 @@ export class DataComponent implements OnInit {
         this.BubbleChartConfig = new Array<BubbleChartConfig>();
         this.BubbleChartConfig.push(bubbleChartArea);
 
-
-
+        // let barChartArea: BarChartConfig = {
+        //   columns: tweets.docs.map(data => {
+        //     return { intents: data.intents[0].intent };
+        //   })
+        // };
 
         let barChartArea: BarChartConfig = {
-          dataset: tweets.docs.map(data => {
-            return { intents: data.intents[0].intent };
-          })
+          columns: tweets.docs.reduce(function(intents, data) {
+            if (data.intents[0].intent in intents) {
+              intents[data.intents[0].intent]++;
+            }
+            else {
+              intents[data.intents[0].intent] = 1;
+            }
+            return intents;
+          }, {})
         };
 
-        this.BarChartConfig = new Array<BarChartConfig>();
-        this.BarChartConfig.push(barChartArea);
+        // console.log(barChartArea);
+
+        // var countedNames = names.reduce(function(allNames, name) {
+        //   if (name in allNames) {
+        //     allNames[name]++;
+        //   }
+        //   else {
+        //     allNames[name] = 1;
+        //   }
+        //   return allNames;
+        // }, {});
+
+
+        this.BarChartConfig = barChartArea;
+
+        // console.log(this.BarChartConfig);
+
+        // console.log(this.BarChartConfig);
+
+        // console.log(barChartArea);
 
         // this.ChartConfig = new Array<ChartConfig>();
         // this.ChartConfig.push(bubbleChartArea);

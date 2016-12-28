@@ -1,5 +1,5 @@
 import { Component, OnChanges, AfterViewInit, Input, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { BubbleChartConfig } from './bar.config';
+import { BarChartConfig } from './bar.config';
 import * as D3 from 'd3';
 import * as Moment from 'moment';
 
@@ -94,30 +94,29 @@ export class BarComponent implements OnChanges, AfterViewInit {
 
   private populate(): void {
 
-    this.keys = ['Canales', 'ContactCenter', 'Varios'];
-
-
-    this.now = Moment.utc();
-    this.start = Moment().subtract(1, 'hours').utc();
-
-    this.xScale.domain([this.start, this.now]);
-    this.zScale.domain(this.keys);
-
-    this.serie = this.svg.selectAll(".serie")
-    .data(this.stack.keys(this.keys)(this.config[0].dataset))
-    .enter().append("g")
-      .attr("class", "serie");
-      // .attr("fill", function(d) { return this.zScale(d.intents); });
-
-    this.serie.selectAll("rect")
-    .data(function(d) { return d; })
-    .enter().append("rect")
-      .attr("x", function(d) {
-        console.log(d);
-        return this.xScale(d.data.State); })
-      .attr("y", function(d) { return this.yScale(d[1]); })
-      .attr("height", function(d) { return this.yScale(d[0]) - this.yScale(d[1]); })
-      .attr("width", this.xScale.bandwidth());
+    console.log(this.config);
+    // this.keys = ['Canales', 'ContactCenter', 'Varios'];
+    //
+    //
+    // this.now = Moment.utc();
+    // this.start = Moment().subtract(1, 'hours').utc();
+    //
+    // this.xScale.domain([this.start, this.now]);
+    // this.zScale.domain(this.keys);
+    //
+    // this.serie = this.svg.selectAll(".serie")
+    // .data(this.stack.keys(this.keys)(this.config[0].dataset))
+    // .enter().append("g")
+    //   .attr("class", "serie");
+    //   // .attr("fill", function(d) { return this.zScale(d.intents); });
+    //
+    // this.serie.selectAll("rect")
+    // .data(function(d) { return d; })
+    // .enter().append("rect")
+    //   .attr("x", function(d) { return this.xScale(d.data.State); })
+    //   .attr("y", function(d) { return this.yScale(d[1]); })
+    //   .attr("height", function(d) { return this.yScale(d[0]) - this.yScale(d[1]); })
+    //   .attr("width", this.xScale.bandwidth());
 
 
 

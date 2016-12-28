@@ -1,5 +1,5 @@
 export interface BarChartConfig {
-  dataset: Array<{ intents: string }>
+  columns: Array<{ name: string, count: number }>
 }
 //
 // export interface ChartConfig {
