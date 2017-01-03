@@ -45,10 +45,9 @@ export class BubbleComponent implements OnChanges, AfterViewInit {
   private setup(): void {
     this.margin = { top: 5, right: 5, bottom: 5, left: 5 };
     this.width = this.htmlElement.clientWidth - this.margin.left - this.margin.right;
-    this.height = this.width * 0.9 - this.margin.top - this.margin.bottom;
+    this.height = this.width * 0.7 - this.margin.top - this.margin.bottom;
 
-    // this.color = D3.scaleOrdinal(D3.schemeCategory20c);
-    this.pack = D3.pack().size([this.width, this.width]).padding(1.5);
+    this.pack = D3.pack().size([this.width, this.height]).padding(1.5);
 
   }
 
@@ -62,7 +61,7 @@ export class BubbleComponent implements OnChanges, AfterViewInit {
 
   private populate(): void {
 
-    this.root = D3.hierarchy({ children: this.config[0].dataset })
+    this.root = D3.hierarchy({children: this.config[0].dataset })
       .sum(function(d) { return d.followers_count })
       .each(function(d) {
         d.id = d.data.screen_name;
@@ -86,6 +85,7 @@ export class BubbleComponent implements OnChanges, AfterViewInit {
       .attr("xlink:href", function(d) { return "#" + d.id; });
 
     this.node.append("text")
+      .attr("class", "bubble-text")
       .attr("clip-path", function(d) { return "url(#clip-" + d.id + ")"; })
       .attr("dy", "0.3em")
       .text(function(d) { return d.id; });

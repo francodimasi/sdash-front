@@ -4,13 +4,13 @@
     <div class="col-sm-4">
       <div class="chart-wrapper">
         <div class="chart-title">
-          Avatar
+          Métricas
         </div>
         <div class="chart-stage">
           <div id="chart-01"></div>
         </div>
         <div class="chart-notes">
-          This is a sample text region to describe this chart.
+          Ultima Actualización:
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@
     <div class="col-sm-8">
       <div class="chart-wrapper">
         <div class="chart-title">
-          Tendencia en tiempo real
+          Tweets por Canal
         </div>
         <div class="chart-stage">
           <div id="chart-02">
@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="chart-notes">
-          Notes go down here
+          Ultima Actualización:
         </div>
       </div>
     </div>
@@ -39,13 +39,15 @@
     <div class="col-sm-4 col-sm-offset-4">
       <div class="chart-wrapper">
         <div class="chart-title">
-          Tweets por canal
+          Sentimiento y Alcance
         </div>
         <div class="chart-stage">
-          <div id="chart-04"></div>
+          <div id="chart-04">
+            <bubble-chart [config]="BubbleChartConfig"></bubble-chart>
+          </div>
         </div>
         <div class="chart-notes">
-          Notes go down here
+          Ultima Actualización:
         </div>
       </div>
     </div>
@@ -53,15 +55,13 @@
     <div class="col-sm-8">
       <div class="chart-wrapper">
         <div class="chart-title">
-          Sentimiento
+          Distribución Geográfica
         </div>
         <div class="chart-stage">
-          <div id="chart-05">
-            <bubble-chart [config]="BubbleChartConfig"></bubble-chart>
-          </div>
+          <div id="chart-05"></div>
         </div>
         <div class="chart-notes">
-          Notes go down here
+          Ultima Actualización:
         </div>
       </div>
     </div>

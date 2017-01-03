@@ -11,11 +11,12 @@ import { BarChartConfig } from '../bar/bar.config';
 })
 export class DataComponent implements OnInit {
 
-  // private ChartConfig: Array<ChartConfig>;
   private BubbleChartConfig: Array<BubbleChartConfig>;
-  private BarChartConfig: BarChartConfig;
+  private BarChartConfig;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService) {
+    setInterval(() => { this.getTweets(); }, 1000 * 90 );
+  }
 
   ngOnInit() {
     this.getTweets();
@@ -24,6 +25,7 @@ export class DataComponent implements OnInit {
   getTweets() {
     this.dataService.getTweets()
       .subscribe((tweets: any) => {
+
 
         // Bubble Chart service
         //
@@ -38,27 +40,25 @@ export class DataComponent implements OnInit {
         this.BubbleChartConfig = new Array<BubbleChartConfig>();
         this.BubbleChartConfig.push(bubbleChartArea);
 
+
+
         // Bar Chart Service
         //
         //
-        
-        let barChartAreaTemp = tweets.docs.reduce(function(intents, data) {
-          if (data.intents[0].intent in intents) {
-            intents[data.intents[0].intent]++;
-          }
-          else {
-            intents[data.intents[0].intent] = 1;
-          }
-          return intents;
-        }, {});
 
-        let barChartArea: BarChartConfig = { columns:[] };
+        let barChartArea: BarChartConfig = {
+          intents: tweets.docs.reduce(function(intents, data) {
+            if (data.intents[0].intent in intents) {
+              intents[data.intents[0].intent]++;
+            }
+            else {
+              intents[data.intents[0].intent] = 1;
+            }
+            return intents;
+          }, {})
+        };
 
-        Object.keys(barChartAreaTemp).forEach(function(intent) {
-          barChartArea.columns.push({name: intent, count: barChartAreaTemp[intent]});
-        });
-
-        this.BarChartConfig = barChartArea;
+        this.BarChartConfig = barChartArea.intents;
 
       });
   }

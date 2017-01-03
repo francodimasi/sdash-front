@@ -1,5 +1,5 @@
 import { Component, OnChanges, AfterViewInit, Input, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { BarChartConfig } from './bar.config';
+// import { BarChartConfig } from './bar.config';
 import * as D3 from 'd3';
 import * as Moment from 'moment';
 
@@ -12,7 +12,7 @@ import * as Moment from 'moment';
 })
 export class BarComponent implements OnChanges, AfterViewInit {
 
-  @Input() config: Array<BarChartConfig>;
+  @Input() config;
   @ViewChild('workarea') element: ElementRef;
 
   private host;
@@ -20,19 +20,21 @@ export class BarComponent implements OnChanges, AfterViewInit {
   private margin;
   private width;
   private height;
-  private xScale;
-  private yScale;
-  private zScale;
   private htmlElement: HTMLElement;
+  private dataset: any;
   private stack;
   private now;
   private start;
   private serie;
+  private legend;
   private rect;
   private total;
   private keys;
+  private xAxis;
 
-  constructor() { }
+  constructor() {
+    this.dataset = new Array<any>();
+  }
 
   ngAfterViewInit() {
     this.htmlElement = this.element.nativeElement;
@@ -41,45 +43,33 @@ export class BarComponent implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges(): void {
-    if (!this.config || this.config.length === 0 || !this.host) return;
-    this.setup();
-    this.buildSVG();
-    this.populate();
+
+    this.now = Moment.utc();
+    this.start = Moment().subtract(1, 'hours').utc();
+
+    if (!this.config || this.config.length === 0 || !this.host) {
+      return;
+    }
+    else {
+      this.dataset.columns = Object.keys(this.config);
+      this.config.date = this.now;
+      this.dataset.push(this.config);
+
+      // console.log(this.dataset);
+
+      this.setup();
+      this.buildSVG();
+      this.populate();
+    }
+
   }
 
   private setup(): void {
     this.margin = { top: 5, right: 5, bottom: 5, left: 5 };
     this.width = this.htmlElement.clientWidth - this.margin.left - this.margin.right;
-    this.height = this.width * 0.5 - this.margin.top - this.margin.bottom;
+    this.height = this.width * 0.4 - this.margin.top - this.margin.bottom;
 
-    // this.color = D3.scaleOrdinal(D3.schemeCategory20c);
-    // this.pack = D3.pack().size([this.width, this.width]).padding(1.5);
-
-
-
-    // this.xScale = D3.scaleBand()
-    //   .rangeRound([0, this.width])
-    //   .padding(0.1)
-    //   .align(0.1);
-
-    // this.now = Moment.utc();
-    // this.start = Moment().subtract(1, 'hours').utc();
-
-
-    this.xScale = D3.scaleTime()
-      .range([0, this.width ]);
-
-
-    this.yScale = D3.scaleLinear()
-      .rangeRound([this.height, 0]);
-
-    this.zScale = D3.scaleOrdinal()
-      .range(["#98abc5", "#8a89a6", "#7b6888"]);
-
-    this.stack = D3.stack()
-      .offset(D3.stackOffsetExpand);
-
-
+    this.stack = D3.stack().offset(D3.stackOffsetExpand);
 
   }
 
@@ -94,31 +84,58 @@ export class BarComponent implements OnChanges, AfterViewInit {
 
   private populate(): void {
 
-    console.log(this.config);
-    // this.keys = ['Canales', 'ContactCenter', 'Varios'];
-    //
-    //
-    // this.now = Moment.utc();
-    // this.start = Moment().subtract(1, 'hours').utc();
-    //
-    // this.xScale.domain([this.start, this.now]);
-    // this.zScale.domain(this.keys);
-    //
-    // this.serie = this.svg.selectAll(".serie")
-    // .data(this.stack.keys(this.keys)(this.config[0].dataset))
-    // .enter().append("g")
-    //   .attr("class", "serie");
-    //   // .attr("fill", function(d) { return this.zScale(d.intents); });
-    //
-    // this.serie.selectAll("rect")
-    // .data(function(d) { return d; })
-    // .enter().append("rect")
-    //   .attr("x", function(d) { return this.xScale(d.data.State); })
-    //   .attr("y", function(d) { return this.yScale(d[1]); })
-    //   .attr("height", function(d) { return this.yScale(d[0]) - this.yScale(d[1]); })
-    //   .attr("width", this.xScale.bandwidth());
+    var width = this.width - this.margin.right - this.margin.left;
+    var height = this.height;
+
+    var xScale = D3.scaleTime().range([0, this.width])
+      .domain([this.start, this.now]);
+
+    var zScale = D3.scaleOrdinal(D3.schemeCategory20)
+      .domain(this.dataset.columns);
+
+    var yScale = D3.scaleLinear().rangeRound([(this.height - this.margin.bottom - this.margin.top - 30), 0]);
+
+    this.serie = this.svg.selectAll(".serie")
+      .data(this.stack.keys(this.dataset.columns)(this.dataset))
+      .enter().append("g")
+      .attr("class", "serie")
+      .attr("fill", function(d) { return zScale(d.key); });
+
+    this.serie.selectAll("rect")
+      .data(function(d) { return d; })
+      .enter().append("rect")
+      .attr("x", function(d) { return xScale(d.data.date); })
+      .attr("y", function(d) { return yScale(d[1]); })
+      .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
+      .attr("width", 10);
 
 
+    this.svg.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(" + 0 + "," + (this.height - this.margin.bottom - this.margin.top - 30) + ")")
+      .call(D3.axisBottom(xScale));
+
+
+    this.legend = this.svg.append("g")
+      .attr("font-family", "sans-serif")
+      .attr("font-size", 10)
+      .selectAll("g")
+      .data(this.dataset.columns.reverse())
+      .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(" + i * 100 + "," + (height - 10) + ")"; });
+
+    this.legend.append("rect")
+      .attr("x", 0)
+      .attr("width", 19)
+      .attr("height", 19)
+      .attr("fill", zScale);
+
+    this.legend.append("text")
+      .attr("class", "legend")
+      .attr("x", 25)
+      .attr("y", 9.5)
+      .attr("dy", "0.32em")
+      .text(function(d) { return d; });
 
   }
 }
