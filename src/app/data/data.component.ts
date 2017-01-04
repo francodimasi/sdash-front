@@ -15,11 +15,12 @@ export class DataComponent implements OnInit {
   private BarChartConfig;
 
   constructor(private dataService: DataService) {
-    setInterval(() => { this.getTweets(); }, 1000 * 90 );
+    setInterval(() => { this.getTweets(); }, 1000 * 90);
   }
 
   ngOnInit() {
     this.getTweets();
+    this.getHistory();
   }
 
   getTweets() {
@@ -59,6 +60,18 @@ export class DataComponent implements OnInit {
         };
 
         this.BarChartConfig = barChartArea.intents;
+
+
+
+      });
+  }
+
+  getHistory() {
+
+    this.dataService.getHistory()
+      .subscribe((history: any) => {
+
+        console.log(history);
 
       });
   }

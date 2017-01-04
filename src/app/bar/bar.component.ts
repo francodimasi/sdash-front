@@ -115,6 +115,11 @@ export class BarComponent implements OnChanges, AfterViewInit {
       .attr("transform", "translate(" + 0 + "," + (this.height - this.margin.bottom - this.margin.top - 30) + ")")
       .call(D3.axisBottom(xScale));
 
+    this.svg.append("g")
+      .attr("class", "axis axis--y")
+      .attr("transform", "translate(35,5)")
+      .call(D3.axisLeft(yScale).ticks(10, "%"));
+
 
     this.legend = this.svg.append("g")
       .attr("font-family", "sans-serif")

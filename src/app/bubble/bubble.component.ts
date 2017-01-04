@@ -62,7 +62,7 @@ export class BubbleComponent implements OnChanges, AfterViewInit {
   private populate(): void {
 
     this.root = D3.hierarchy({children: this.config[0].dataset })
-      .sum(function(d) { return d.followers_count })
+      .sum(function(d) {  return d.followers_count })
       .each(function(d) {
         d.id = d.data.screen_name;
         d.sentiment = d.data.sentiment;

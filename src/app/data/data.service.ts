@@ -16,4 +16,11 @@ export class DataService {
 
     return this.http.get(this.url + '/tweets').map((res: Response) => res.json());
   }
+
+  getHistory(): Observable<Response> {
+    // let headers = new Headers({ 'Access-Control-Allow-Origin': 'http://localhost:4200' });
+    // let options = new RequestOptions({ headers: headers });
+    
+    return this.http.get(this.url + '/history').map((res: Response) => res.json());
+  }
 }
