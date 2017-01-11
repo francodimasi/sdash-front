@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from './data.service';
 import { BubbleChartConfig } from '../bubble/bubble.config';
 import { BarChartConfig } from '../bar/bar.config';
+import { TrendChartConfig } from '../trend/trend.config';
 
 @Component({
   selector: 'app-data',
@@ -13,6 +14,7 @@ export class DataComponent implements OnInit {
 
   private BubbleChartConfig: Array<BubbleChartConfig>;
   private BarChartConfig;
+  private TrendChartConfig: TrendChartConfig;
 
   constructor(private dataService: DataService) {
     setInterval(() => { this.getTweets(); }, 1000 * 90);
@@ -71,7 +73,18 @@ export class DataComponent implements OnInit {
     this.dataService.getHistory()
       .subscribe((history: any) => {
 
-        console.log(history);
+        // Trend Chart Service
+        //
+        //
+
+
+        let trendChartArea: TrendChartConfig = {
+          dataset: history.docs.map(data => {
+            return { screen_name: data.screen_name, followers_count: data.followers_count, created_at: new Date(data.created_at) };
+          })
+        };
+
+        this.TrendChartConfig = trendChartArea;
 
       });
   }
