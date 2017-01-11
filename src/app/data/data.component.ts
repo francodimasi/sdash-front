@@ -19,7 +19,7 @@ export class DataComponent implements OnInit {
   private TrendChartConfig: TrendChartConfig;
 
   constructor(private dataService: DataService) {
-    setInterval(() => { this.getTweets(); }, 1000 * 90 );
+    setInterval(() => { this.getTweets(); }, 1000 * 90);
   }
 
   ngOnInit() {
@@ -65,6 +65,7 @@ export class DataComponent implements OnInit {
 
         this.BarChartConfig = barChartArea.intents;
 
+
         // Counter Service
         //
         //
@@ -97,7 +98,9 @@ export class DataComponent implements OnInit {
 
 
       });
-}
+  }
+
+ 
 getHistory() {
 
     this.dataService.getHistory()

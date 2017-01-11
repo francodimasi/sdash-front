@@ -45,7 +45,7 @@ export class TrendComponent implements OnChanges, AfterViewInit {
   private setup(): void {
     this.margin = { top: 5, right: 5, bottom: 5, left: 5 };
     this.width = this.htmlElement.clientWidth - this.margin.left - this.margin.right;
-    this.height = this.width * 0.5 - this.margin.top - this.margin.bottom;
+    this.height = this.width * 0.7 - this.margin.top - this.margin.bottom;
 
   }
 
