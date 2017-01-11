@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from './data.service';
 import { BubbleChartConfig } from '../bubble/bubble.config';
 import { BarChartConfig } from '../bar/bar.config';
+import { CounterConfig } from '../counter/count.config';
+import { TrendChartConfig } from '../trend/trend.config';
 
 @Component({
   selector: 'app-data',
@@ -13,6 +15,8 @@ export class DataComponent implements OnInit {
 
   private BubbleChartConfig: Array<BubbleChartConfig>;
   private BarChartConfig;
+  private CounterConfig;
+  private TrendChartConfig: TrendChartConfig;
 
   constructor(private dataService: DataService) {
     setInterval(() => { this.getTweets(); }, 1000 * 90 );
@@ -20,6 +24,7 @@ export class DataComponent implements OnInit {
 
   ngOnInit() {
     this.getTweets();
+    this.getHistory();
   }
 
   getTweets() {
@@ -60,7 +65,57 @@ export class DataComponent implements OnInit {
 
         this.BarChartConfig = barChartArea.intents;
 
+        // Counter Service
+        //
+        //
+
+        let counterArea: CounterConfig = {
+          dataset: {
+          all_tweets :tweets.docs.length,
+          followers_count: tweets.docs.reduce(function(followers_count, data) {
+            followers_count = followers_count +data.followers_count;
+            return followers_count;
+          }, 0),
+          // canales: tweets.docs.reduce(function(canales, data) {
+          //     if(data.intents[0].intent === "Canales"){
+          //       canales= canales + 1;
+          //     }
+          //     return canales;
+          //   }, 0),
+          //   contactCenter: tweets.docs.reduce(function(contactCenter, data) {
+          //       if(data.intents[0].intent === "ContactCenter"){
+          //         contactCenter++;
+          //       }
+          //       return contactCenter;
+          //     }, 0)
+          }
+        }
+
+
+        this.CounterConfig = counterArea.dataset;
+
+
+
+      });
+}
+getHistory() {
+
+    this.dataService.getHistory()
+      .subscribe((history: any) => {
+
+        // Trend Chart Service
+        //
+        //
+
+
+        let trendChartArea: TrendChartConfig = {
+          dataset: history.docs.map(data => {
+            return { screen_name: data.screen_name, followers_count: data.followers_count, created_at: new Date(data.created_at) };
+          })
+        };
+
+        this.TrendChartConfig = trendChartArea;
+
       });
   }
-
 }

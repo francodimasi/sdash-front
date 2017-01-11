@@ -7,13 +7,17 @@ import { AppComponent } from './app.component';
 import { DataComponent } from './data/data.component';
 import { BubbleComponent } from './bubble/bubble.component';
 import { BarComponent } from './bar/bar.component';
+import { CounterComponent } from './counter/counter.component';
+import { TrendComponent } from './trend/trend.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DataComponent,
     BubbleComponent,
-    BarComponent
+    BarComponent,
+    CounterComponent,
+    TrendComponent
   ],
   imports: [
     BrowserModule,

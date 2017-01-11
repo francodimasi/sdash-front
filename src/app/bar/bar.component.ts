@@ -90,7 +90,7 @@ export class BarComponent implements OnChanges, AfterViewInit {
     var xScale = D3.scaleTime().range([0, this.width])
       .domain([this.start, this.now]);
 
-    var zScale = D3.scaleOrdinal(D3.schemeCategory20)
+    var zScale = D3.scaleOrdinal(['#cccccc','#969696','#636363','#252525'])
       .domain(this.dataset.columns);
 
     var yScale = D3.scaleLinear().rangeRound([(this.height - this.margin.bottom - this.margin.top - 30), 0]);
@@ -99,7 +99,12 @@ export class BarComponent implements OnChanges, AfterViewInit {
       .data(this.stack.keys(this.dataset.columns)(this.dataset))
       .enter().append("g")
       .attr("class", "serie")
-      .attr("fill", function(d) { return zScale(d.key); });
+      .attr("fill", function(d) { return zScale(d.key); })
+      .attr("fill-opacity", 0.5)
+      // .attr("stroke",  function(d) { return zScale(d.key); })
+      // .attr("stroke-opacity", 1)
+      // .attr("stroke-width", 1)
+        ;
 
     this.serie.selectAll("rect")
       .data(function(d) { return d; })

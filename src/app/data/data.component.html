@@ -1,43 +1,48 @@
 <div class="container-fluid">
-  <div class="row">
-
-    <div class="col-sm-4">
-      <div class="chart-wrapper">
-        <div class="chart-title">
-          Métricas
-        </div>
-        <div class="chart-stage">
-          <div id="chart-01"></div>
-        </div>
-        <div class="chart-notes">
-          Ultima Actualización:
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-8">
-      <div class="chart-wrapper">
-        <div class="chart-title">
-          Tweets por Canal
-        </div>
-        <div class="chart-stage">
-          <div id="chart-02">
-            <bar-chart [config]="BarChartConfig"></bar-chart>
-          </div>
-        </div>
-        <div class="chart-notes">
-          Ultima Actualización:
-        </div>
-      </div>
-    </div>
-
+  <div class="row border-bottom">
+      <counter [config]= "CounterConfig"></counter>
   </div>
 
+  <div class="row" >
 
-  <div class="row">
+    <div class="col-sm-8 col-sm-offset-8 ">
 
-    <div class="col-sm-4 col-sm-offset-4">
-      <div class="chart-wrapper">
+      <div class="row">
+        <div class="chart-wrapper">
+          <div class="chart-title">
+            Tweets por Canal
+          </div>
+          <div class="chart-stage">
+            <div id="chart-02">
+              <bar-chart [config]="BarChartConfig"></bar-chart>
+            </div>
+          </div>
+          <div class="chart-notes">
+            Ultima Actualización:
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="chart-wrapper">
+            <div class="chart-title">
+              Distribución Geográfica
+            </div>
+            <div class="chart-stage">
+              <div id="chart-05">
+                <trend-chart [config]="TrendChartConfig"></trend-chart>
+              </div>
+            </div>
+            <div class="chart-notes">
+              Ultima Actualización:
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+    <div class="col-sm-4 col-sm-offset-4 ">
+      <div class="chart-wrapper" id="sentiment">
         <div class="chart-title">
           Sentimiento y Alcance
         </div>
@@ -45,23 +50,6 @@
           <div id="chart-04">
             <bubble-chart [config]="BubbleChartConfig"></bubble-chart>
           </div>
-        </div>
-        <div class="chart-notes">
-          Ultima Actualización:
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-8">
-      <div class="chart-wrapper">
-        <div class="chart-title">
-          Distribución Geográfica
-        </div>
-        <div class="chart-stage">
-          <div id="chart-05"></div>
-        </div>
-        <div class="chart-notes">
-          Ultima Actualización:
         </div>
       </div>
     </div>

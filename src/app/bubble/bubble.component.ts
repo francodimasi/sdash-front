@@ -40,12 +40,12 @@ export class BubbleComponent implements OnChanges, AfterViewInit {
     this.setup();
     this.buildSVG();
     this.populate();
-  }
+    }
 
   private setup(): void {
     this.margin = { top: 5, right: 5, bottom: 5, left: 5 };
     this.width = this.htmlElement.clientWidth - this.margin.left - this.margin.right;
-    this.height = this.width * 0.7 - this.margin.top - this.margin.bottom;
+    this.height = this.width * 1.1- this.margin.top - this.margin.bottom;
 
     this.pack = D3.pack().size([this.width, this.height]).padding(1.5);
 

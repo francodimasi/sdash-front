@@ -1,0 +1,49 @@
+<div #workarea class="graph">
+
+
+    <div class="col-md-10 border-bottom">
+        <div class="col-md-3">
+            <div class="row-time">
+              {{timeTitle1}}
+            </div>
+            <div class="row-title">
+                    {{this.title1}} <span class="number">{{this.tweetsTotal}} </span>
+                    <img class="img-responsive" [src]= "this.changetweets"/>
+            </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="row-time">
+            {{timeTitle2}}
+          </div>
+          <div class= "row-title">
+            {{this.title1}} <span class="number">{{this.tweetsTotal}} </span>
+            <img class="img-responsive" [src]="this.changefollowers"/>
+          </div>
+        </div>
+        <div class="col-md-3 ">
+          <div class="row-time">
+            {{timeTitle1}}
+          </div>
+          <div class= "row-title">
+            {{this.title2}} <span class="number">{{this.followers_count}} </span>
+            <img class="img-responsive" [src]="this.changefollowers"/>
+          </div>
+        </div>
+
+    </div>
+
+      <div class="col-md-2">
+        <div class="btn-group">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">{{this.title3}}</button>
+
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">30 seg</a>
+            <a class="dropdown-item" href="#">90 seg</a>
+            <a class="dropdown-item"  href="#">5 min</a>
+            <a class="dropdown-item" href="#">10 min</a>
+          </div>
+        </div>
+      </div>
+
+
+  </div>

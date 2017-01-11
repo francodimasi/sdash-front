@@ -1,0 +1,57 @@
+.graph {
+  width: 100%;
+  display: flex;
+  color: #808080;
+  text-align: left;
+}
+
+
+div[class^="col-"] {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.row-time {
+  padding-left: 9px;
+  padding-top: 3px;
+  font-size: 12px;
+}
+
+.row-title {
+  color: #595959;
+  font-weight: bold;
+  padding-left: 8px;
+  padding-bottom: 3px;
+  font-size: 20px;
+  border-left:1px solid #d7d7d7;
+}
+
+.number {
+  color: #E42217;
+  font-weight: bold;
+}
+
+text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
+.img-responsive {
+  padding-bottom: 3px;
+  max-width: 7%;
+  height: auto;
+}
+
+.btn {
+  padding: 10px;
+  width: 100%;
+  height: auto;
+  font-size: 80%;
+  margin: 7px;
+  background-color: transparent;
+  border: 2px solid #d7d7d7;
+  color: #97999C;
+}
+.counter {
+  border-bottom: 10px solid #d7d7d7;
+}
