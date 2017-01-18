@@ -1,0 +1,16 @@
+.graph {
+  width: 100%;
+  display: block;
+}
+
+.legend {
+  font: 10px sans-serif;
+}
+
+.axis path {
+  display: none;
+}
+
+.serie rect{
+  border-top: 2px solid #000;
+}

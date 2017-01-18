@@ -1,0 +1,54 @@
+.top-content {
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+
+.top-content ul.mini-stat {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-bottom: 0;
+}
+
+.top-content ul.mini-stat > li:first-child {
+    border-left: none;
+}
+
+.top-content ul.mini-stat > li {
+    border-left: 1px solid #bbb;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.top-content ul.mini-stat h5 {
+    float: left;
+    margin: 0;
+    text-align: left;
+    font-size: 0.85em;
+    color: #bbb;
+}
+
+.top-content ul.mini-stat h5 .stat-value.stat-color-orange {
+    color: #777;
+}
+
+.top-content ul.mini-stat h5 .stat-value {
+    display: block;
+    font-size: 1.5em;
+    margin-top: 3px;
+}
+
+.top-content .mini-bar-chart {
+    display: block;
+    float: right;
+    margin: 6px 0 0 20px;
+}
+
+.top-content .mini-bar-chart img {
+  height: 12px;
+}
+
+// @media screen and (min-width: 992px;)
+// .top-content ul.mini-stat > li {
+//     padding-left: 10px;
+//     padding-right: 10px;
+// }

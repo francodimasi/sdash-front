@@ -1,0 +1,37 @@
+<div class="row" style="border-bottom: 1px solid #bbb;">
+  <div class="col-md-3">
+    <div class="btn-group">
+      <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">{{this.title3}}</button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">30 seg</a>
+        <a class="dropdown-item" href="#">90 seg</a>
+        <a class="dropdown-item" href="#">5 min</a>
+        <a class="dropdown-item" href="#">10 min</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="top-content">
+      <ul class="list-inline mini-stat">
+        <li>
+          <h5>
+            TWEETS TOTALES
+            <span class="stat-value stat-color-orange">{{this.tweetsTotal}}</span>
+          </h5>
+          <span class="mini-bar-chart">
+            <img class="img-responsive" [src]="this.changetweets"/>
+          </span>
+        </li>
+        <li>
+          <h5>
+            ALCANCE TOTAL
+            <span class="stat-value stat-color-orange">{{this.followers_count}}</span>
+          </h5>
+          <span class="mini-bar-chart">
+            <img class="img-responsive" [src]="this.changefollowers" />
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

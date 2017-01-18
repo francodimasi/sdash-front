@@ -1,0 +1,109 @@
+// .container-fluid{
+//   margin: 0px;
+//   padding: 0px;
+// }
+//
+// .chart-wrapper {
+//   background: #fff;
+// }
+//
+// .chart-wrapper .chart-title {
+//
+//   color: #595959;
+//   font-size: 16px;
+//   font-weight: 600;
+//
+//   padding: 7px 10px 4px;
+// }
+//
+// .chart-wrapper .chart-stage {
+//   overflow: hidden;
+//   padding: 5px 10px;
+//   position: relative;
+// }
+//
+// .chart-wrapper .chart-notes {
+//   color: #808080;
+//   font-size: 12px;
+//   padding: 8px 10px 5px;
+// }
+//
+// .sentiment {
+//   background-color: #f5f5f5;
+//   height: 100%;
+//   width: auto;
+// }
+//
+// div[class^="col-"] {
+//   padding: 0px;
+//
+// }
+//
+// .row{
+//   margin: 0px;
+//   background-color: #f5f5f5
+// }
+//
+// .border-bottom {
+//   border-bottom: 1px solid #d7d7d7;
+//   background-color: #fff
+// }
+//
+//
+//
+//
+//
+//
+// // body.application div[class^="col-"] div[class^="col-"],
+// // .keen-dashboard div[class^="col-"] div[class^="col-"] {
+// //   padding-left: 15px;
+// //   padding-right: 15px;
+// // }
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  height:100%;
+  position: fixed;
+  right:0;
+  top: 64px;
+  bottom: 0;
+  z-index: 1000;
+  padding: 1rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  border-left: 1px solid #bbb;
+}
+
+/* Sidebar navigation */
+
+.sidebar .nav {
+  margin-bottom: 20px;
+}
+
+.sidebar .nav-item {
+  width: 100%;
+}
+
+.sidebar .nav-item + .nav-item {
+  margin-left: 0;
+}
+
+.sidebar .nav-link {
+  border-radius: 0;
+}
+
+/*
+ * Dashboard
+ */
+
+ /* Placeholders */
+.placeholders {
+  padding-bottom: 3rem;
+}
+
+#sidebar {
+
+}

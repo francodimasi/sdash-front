@@ -1,0 +1,6 @@
+{
+  "/tweets": {
+    "target": "https://santanderrio.mybluemix.net",
+    "secure": true
+  }
+}
