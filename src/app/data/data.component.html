@@ -68,19 +68,42 @@
         <counter class="col" [config]= "CounterConfig"></counter>
       </section>
 
-      <h6 class="pt-4">Tweets por Canal</h6>
+      <div class="section-header">
+        <h6>Tweets por Canal</h6>
+        <em>- Cuantos tweets clasificó Watson por canal en las ultimas 12 horas</em>
+        <div class="section-header-toolbar">
+					<a href="#" title="Compartir"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+          <a href="#" title="Compartir"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
+				</div>
+      </div>
+
+
       <section class="row">
         <bar-chart class="col" [config]="BarChartConfig"></bar-chart>
       </section>
 
-      <h6 class="pt-4">Tendencia</h6>
+      <div class="section-header">
+        <h6>Tendencia</h6>
+        <em>- Cantidad de tweets en los ultimos 3 días</em>
+        <div class="section-header-toolbar">
+					<a href="#" title="Compartir"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+					<a href="#" title="Compartir"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
+				</div>
+      </div>
+
       <section class="row">
         <trend-chart class="col" [config]="TrendChartConfig"></trend-chart>
       </section>
     </main>
 
       <nav class="col-md-4 sidebar bg-faded" id="sidebar">
-        <h6>Sentimiento y Alcance</h6>
+        <div class="section-header" style="padding-top: 0px !important;">
+          <h6>Sentimiento y Alcance</h6>
+          <div class="section-header-toolbar">
+        		<a href="#" title="Compartir"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+            <a href="#" title="Compartir"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
+        	</div>
+        </div>
         <bubble-chart [config]="BubbleChartConfig"></bubble-chart>
       </nav>
 

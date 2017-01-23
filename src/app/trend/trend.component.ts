@@ -43,17 +43,17 @@ export class TrendComponent implements OnChanges, AfterViewInit {
   }
 
   private setup(): void {
-    this.margin = { top: 5, right: 5, bottom: 5, left: 5 };
+    this.margin = { top: 10, right: 10, bottom: 10, left: 10 };
     this.width = this.htmlElement.clientWidth - this.margin.left - this.margin.right;
-    this.height = this.width * 0.5 - this.margin.top - this.margin.bottom;
+    this.height = this.width * 0.2 - this.margin.top - this.margin.bottom;
 
   }
 
   private buildSVG(): void {
     this.host.html('');
     this.svg = this.host.append('svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .attr('width', this.width)
+      .attr('height', this.height)
       .append('g');
 
   }
@@ -67,39 +67,48 @@ export class TrendComponent implements OnChanges, AfterViewInit {
       .rollup(function(d) { return d.length })
       .entries(this.config.dataset);
 
+
     var x = D3.scaleTime()
-      .range([40, this.width])
+      .range([20, this.width])
       .domain(D3.extent(this.config.dataset, function(d) { return d.created_at; }));
 
     var y = D3.scaleLinear()
-      .range([(this.height - 20), 0])
-      .domain([0, D3.max(entries, function(d) { return d.value; })]);
+      .range([(this.height - 20), 10])
+      .domain([0, 25]);
+      // .domain([0, D3.max(entries, function(d) { return d.value; })]);
+
 
     var valueline = D3.line()
+      .curve(D3.curveMonotoneX)
       .x(function(d) { return x(new Date(d.key)); })
       .y(function(d) { return y(d.value); });
+
+    // Add the X Axis
+    this.svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + (this.height - 20) + ")")
+      .call(D3.axisBottom(x));
+
+    // Add the Y Axis
+    this.svg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(15,0)")
+      .call(D3.axisLeft(y).tickValues([0,5,10,15,20,25]).tickSize(-this.width));
 
     this.svg.append("path")
       .data([entries])
       .attr("class", "line")
       .attr("d", valueline);
 
+
     this.svg.selectAll("dot")
       .data(entries)
     .enter().append("circle")
       .attr("r", 3)
-      .attr("class", function(d) { return d.key; })
+      .attr("class", "dot")
       .attr("cx", function(d) { return x(new Date(d.key)); })
       .attr("cy", function(d) { return y(d.value); });
 
-    this.svg.append("g")
-      .attr("transform", "translate(0," + (this.height - 20) + ")")
-      .call(D3.axisBottom(x));
-
-    // Add the Y Axis
-    this.svg.append("g")
-      .attr("transform", "translate(40,0)")
-      .call(D3.axisLeft(y));
 
     // var x = d3.scaleTime().range([0, this.width]);
     // var y = d3.scaleLinear().range([this.height, 0]);

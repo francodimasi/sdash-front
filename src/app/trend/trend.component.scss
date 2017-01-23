@@ -5,6 +5,28 @@
 
 .line {
   fill: none;
-  stroke: steelblue;
+  stroke: #7dcb62;
   stroke-width: 2px;
+}
+
+.dot {
+  fill: #e3f5dd;
+  stroke: #7dcb62;
+  stroke-width: 1px;
+}
+
+.tick text {
+  fill: #bbb;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.x.axis line {
+  stroke: #fff;
+}
+
+.y.axis line, .y.axis path {
+  stroke: #ddd;
 }
