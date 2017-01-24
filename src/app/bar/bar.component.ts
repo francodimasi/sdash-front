@@ -93,6 +93,12 @@ export class BarComponent implements OnChanges, AfterViewInit {
     var zScale = D3.scaleOrdinal(['#daedfe','#e3f5dd','#fdb9ae','#cccccc'])
       .domain(this.dataset.columns);
 
+    var zScale2 = D3.scaleOrdinal(['#CCC','#000','#f0f0f0','#cccccc'])
+      .domain(this.dataset.columns);
+
+    // var zScale = D3.scaleOrdinal(['positive','negative','#fdb9ae'])
+    //   .domain(this.dataset.columns);
+
     var yScale = D3.scaleLinear().rangeRound([(this.height - 50), 10]);
 
     this.svg.append("g")
@@ -110,18 +116,36 @@ export class BarComponent implements OnChanges, AfterViewInit {
       .data(this.stack.keys(this.dataset.columns)(this.dataset))
       .enter().append("g")
       .attr("class", "serie")
-      .attr("fill", function(d) { return zScale(d.key); });
-      // .attr("stroke",  function(d) { return zScale(d.key); })
+      .attr("fill",  function(d) { return zScale(d.key); });
+      // .attr("stroke", function(d) { return zScale2(d.key) })
+      // .attr("stroke-width", "2px");
       // .attr("stroke-opacity", 1)
       // .attr("stroke-width", 1)
 
     this.serie.selectAll("rect")
       .data(function(d) { return d; })
       .enter().append("rect")
-      .attr("x", function(d) { return (xScale(d.data.date) - 10) ; })
+      .attr("x", function(d) { return (xScale(d.data.date) - 20) ; })
       .attr("y", function(d) { return yScale(d[1]); })
       .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
-      .attr("width", 10);
+      .attr("width", 20)
+      .attr("data-container", "body")
+      .attr("data-toggle", "popover")
+      .attr("data-trigger", "hover")
+      .attr("data-placement","left")
+      .attr("data-content", function(d) { return Math.round((d[1] - d[0]) * 100) + " %"; });
+
+
+    this.serie.selectAll("line")
+      .data(function(d) { return d; })
+      .enter().append("line")
+      .attr("x1", function(d) { return xScale(d.data.date) - 20; })
+      .attr("y1", function(d) { return yScale(d[0]) + 1; })
+      .attr("x2", function(d) { return xScale(d.data.date) })
+      .attr("y2", function(d) { return yScale(d[0]) + 1; });
+      // .attr("style", function(d) {
+      //   return "stroke:" + zScale(d.fill) + ";stroke-width:2px";
+      // });
 
 
     this.legend = this.svg.append("g")
@@ -142,6 +166,13 @@ export class BarComponent implements OnChanges, AfterViewInit {
       .attr("y", 9.5)
       .attr("dy", "0.32em")
       .text(function(d) { return d; });
+
+
+    // Tooltip
+
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    })
 
   }
 }

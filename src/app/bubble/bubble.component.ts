@@ -40,12 +40,12 @@ export class BubbleComponent implements OnChanges, AfterViewInit {
     this.setup();
     this.buildSVG();
     this.populate();
-    }
+  }
 
   private setup(): void {
     this.margin = { top: 5, right: 5, bottom: 5, left: 5 };
     this.width = this.htmlElement.clientWidth - this.margin.left - this.margin.right;
-    this.height = this.width * 1.1- this.margin.top - this.margin.bottom;
+    this.height = this.width * 1.1 - this.margin.top - this.margin.bottom;
 
     this.pack = D3.pack().size([this.width, this.height]).padding(1.5);
 
@@ -61,18 +61,25 @@ export class BubbleComponent implements OnChanges, AfterViewInit {
 
   private populate(): void {
 
-    this.root = D3.hierarchy({children: this.config[0].dataset })
+    this.root = D3.hierarchy({ children: this.config[0].dataset })
       .sum(function(d) { return d.followers_count })
       .each(function(d) {
         d.id = d.data.screen_name;
         d.sentiment = d.data.sentiment;
+        d.followers_count = d.data.followers_count;
       });
 
     this.node = this.svg.selectAll(".node")
       .data(this.pack(this.root).leaves())
       .enter().append("g")
       .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+      .attr("data-container", "body")
+      .attr("data-toggle", "popover")
+      .attr("data-trigger", "hover")
+      .attr("data-html", "true")
+      .attr("data-placement","top")
+      .attr("data-content", function(d) { return d.followers_count + "<br> Seguidores"; });
 
     this.node.append("circle")
       .attr("id", function(d) { return d.id; })
@@ -89,5 +96,10 @@ export class BubbleComponent implements OnChanges, AfterViewInit {
       .attr("clip-path", function(d) { return "url(#clip-" + d.id + ")"; })
       .attr("dy", "0.3em")
       .text(function(d) { return d.id; });
+
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    })
+
   }
 }

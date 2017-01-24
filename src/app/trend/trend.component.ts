@@ -69,12 +69,12 @@ export class TrendComponent implements OnChanges, AfterViewInit {
 
 
     var x = D3.scaleTime()
-      .range([20, this.width])
+      .range([20, this.width-5])
       .domain(D3.extent(this.config.dataset, function(d) { return d.created_at; }));
 
     var y = D3.scaleLinear()
       .range([(this.height - 20), 10])
-      .domain([0, 25]);
+      .domain([0, 50]);
       // .domain([0, D3.max(entries, function(d) { return d.value; })]);
 
 
@@ -93,7 +93,7 @@ export class TrendComponent implements OnChanges, AfterViewInit {
     this.svg.append("g")
       .attr("class", "y axis")
       .attr("transform", "translate(15,0)")
-      .call(D3.axisLeft(y).tickValues([0,5,10,15,20,25]).tickSize(-this.width));
+      .call(D3.axisLeft(y).tickValues([0,10,20,30,40,50]).tickSize(-this.width));
 
     this.svg.append("path")
       .data([entries])
@@ -107,7 +107,13 @@ export class TrendComponent implements OnChanges, AfterViewInit {
       .attr("r", 3)
       .attr("class", "dot")
       .attr("cx", function(d) { return x(new Date(d.key)); })
-      .attr("cy", function(d) { return y(d.value); });
+      .attr("cy", function(d) { return y(d.value); })
+      .attr("data-container", "body")
+      .attr("data-toggle", "popover")
+      .attr("data-trigger", "hover")
+      .attr("data-placement","top")
+      .attr("data-html", "true")
+      .attr("data-content", function(d) { return d.value + " Tweets<br>Fecha: " + d.key; });
 
 
     // var x = d3.scaleTime().range([0, this.width]);
@@ -118,6 +124,12 @@ export class TrendComponent implements OnChanges, AfterViewInit {
     //   .y(function(d) { return y(d.close); });
     //
     // console.log(entries);
+
+    // Tooltip
+
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    })
 
   }
 }
